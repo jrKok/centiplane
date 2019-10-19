@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<"main Window";
     //Launcher startXP;
     QString xpD=json.GetMainXPDir();
-    if (xpD=="") GetMainXPLocation();
+    if (xpD==""|xpD==".") GetMainXPLocation();
     else files.SetMainXPDir(xpD);
     BuildContent();
     CreateActions();
@@ -97,6 +97,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::BuildContent(){
     setCentralWidget(centralWidget);
+    setWindowTitle("CENTIPLANE");
+    setMinimumSize(400,300);
     QString backgroundString="background-image:url";
     QString generalbackground=QString(backgroundString+"("+files.GetMainXPlaneDir()+"/Resources/bitmaps/def_file.png"+")");
     qDebug()<<generalbackground;

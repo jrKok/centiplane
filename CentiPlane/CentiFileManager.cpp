@@ -61,11 +61,6 @@ QVector<QString> CentiFileManager::readXPlaneLocations(){
                 QDir xpD(findFile.filePath());
                 xpD.cdUp();
                 XPLocs.append(xpD.path());
-                if (mainXPlaneDir==xpD)
-                {
-                    mainXPlaneDir=xpD;
-                    qDebug()<<mainXPlaneDir.path();
-                }
             }
         }
     }

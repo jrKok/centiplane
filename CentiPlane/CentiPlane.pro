@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    instance.cpp \
         main.cpp \
         mainwindow.cpp \
     launcher.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     jsoninstance.cpp
 
 HEADERS += \
+    instance.h \
         mainwindow.h \
     launcher.h \
     jsonparser.h \
