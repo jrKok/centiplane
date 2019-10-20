@@ -17,6 +17,8 @@ public:
     void    SetOptReload(bool opt);
     QString GetMainXPDir();
     void    SetMainXPDir(const QString &md);
+    bool    GetRestartOption();
+    void    SetRestartOption(bool opt);
     void    AddXPLocation(QString newLoc);
     void    ChooseDefaultXPLocation();
     QStringList GetXPLocations();
@@ -31,7 +33,7 @@ private:
     //objects for appData
     QJsonObject appData;
     QJsonObject instanceData;
-    bool optReloadXPLocsAtStart;
+    bool optReloadXPLocsAtStart,restartAtPrevious;
     //functions
     void SaveAppData();
     void ReadAppData();

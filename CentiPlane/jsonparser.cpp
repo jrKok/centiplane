@@ -23,7 +23,8 @@ JsonParser::JsonParser():
     //objects for appData
     appData(),
     instanceData(),
-    optReloadXPLocsAtStart(false)
+    optReloadXPLocsAtStart(false),
+    restartAtPrevious(false)
 
 {
 ReadAppData();
@@ -57,9 +58,10 @@ void JsonParser::ReadAppData()
        QJsonDocument jFile(QJsonDocument::fromJson(fromFile));
        appData=jFile.object();
        //parse data
-       optReloadXPLocsAtStart=appData["readXPLocs"].toBool();
+       optReloadXPLocsAtStart=appData["ReadXPLocs"].toBool();
        xpLocation=appData["XPDefault"].toString();
-       xpLocations=appData["allXP"].toArray();
+       xpLocations=appData["AllXP"].toArray();
+       restartAtPrevious=appData["RestartOption"].toBool();
        qDebug()<<"read json as : "<<optReloadXPLocsAtStart;
        dataFile.close();
     }
@@ -75,9 +77,10 @@ void JsonParser::BuildDataObject(){
     BuildXPArrayFromList(locs);
     xpLocation=CentiFileManager::GetMainXPlaneDir();
     if (xpLocation=="") return;
-    appData["readXPLocs"]=optReloadXPLocsAtStart;
+    appData["ReadXPLocs"]=optReloadXPLocsAtStart;
     appData["XPDefault"]=xpLocation;
-    appData["allXP"]=xpLocations;
+    appData["AllXP"]=xpLocations;
+    appData["RestartOption"]=restartAtPrevious;
 }
 
 
@@ -95,7 +98,7 @@ bool JsonParser::GetOptReload(){return optReloadXPLocsAtStart;}
 
 void JsonParser::SetOptReload(bool opt){
     optReloadXPLocsAtStart=opt;
-    appData["readXPLocs"]=optReloadXPLocsAtStart;
+    appData["ReadXPLocs"]=optReloadXPLocsAtStart;
     SaveAppData();}
 
 QStringList JsonParser::GetXPLocations(){
@@ -107,7 +110,6 @@ QStringList JsonParser::GetXPLocations(){
 }
 
 QString JsonParser::GetMainXPDir(){
-
     return xpLocation;
 }
 
@@ -117,10 +119,16 @@ void JsonParser::SetMainXPDir(const QString &md){
     SaveAppData();
 }
 
+void JsonParser::SetRestartOption(bool opt){
+    restartAtPrevious=opt;
+    appData["RestartOption"]=opt;
+    SaveAppData();
+}
+
 void JsonParser::AddXPLocation(QString newLoc){
     xpLocations.append(newLoc);
+    appData["AllXP"]=xpLocations;
     SaveAppData();
-    appData["allXP"]=xpLocations;
 }
 
 //Other functions
